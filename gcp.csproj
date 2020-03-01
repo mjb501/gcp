@@ -8,5 +8,9 @@
     <None Update="app.yaml" CopyToOutputDirectory="PreserveNewest" />
     <None Include="Dockerfile" CopyToOutputDirectory="PreserveNewest" /> 
   </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Google.Cloud.Diagnostics.AspNetCore" Version="3.0.0" />
+  </ItemGroup>
 
 </Project>
