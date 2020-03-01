@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Google.Cloud.Diagnostics.AspNetCore;
+using Google.Cloud.Diagnostics.Common;
+using Microsoft.Extensions.Logging;
 
 namespace gcp
 {
@@ -23,12 +26,33 @@ namespace gcp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddOptions();
+            services.Configure<StackdriverOptions>(
+                Configuration.GetSection("Stackdriver"));
+            services.AddGoogleExceptionLogging(options =>
+            {
+                options.ProjectId = Configuration["Stackdriver:ProjectId"];
+                options.ServiceName = Configuration["Stackdriver:ServiceName"];
+                options.Version = Configuration["Stackdriver:Version"];
+            });
+
+            // Add trace service.
+            services.AddGoogleTrace(options =>
+            {
+                options.ProjectId = Configuration["Stackdriver:ProjectId"];
+                options.Options = TraceOptions.Create(
+                    bufferOptions: BufferOptions.NoBuffer());
+            });
+
             services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
+            // Configure logging service.
+            loggerFactory.AddGoogle(app.ApplicationServices, Configuration["Stackdriver:ProjectId"]);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -39,6 +63,12 @@ namespace gcp
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            // Configure logging service.
+            app.UseGoogleExceptionLogging();
+            // Configure trace service.
+            app.UseGoogleTrace();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

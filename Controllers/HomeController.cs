@@ -25,6 +25,7 @@ namespace gcp.Controllers
 
         public IActionResult Privacy()
         {
+            _logger.LogInformation("Navigated to Privacy");
             return View();
         }
 
