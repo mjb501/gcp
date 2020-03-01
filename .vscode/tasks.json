@@ -37,6 +37,22 @@
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "deploy",
+            "command": "gcloud",
+            "type": "shell",
+            "args": [
+                {
+                "value": "app deploy",
+                "quoting": "weak"
+                },
+                {
+                "value": "./bin/Debug/netcoreapp3.1/publish/app.yaml",
+                "quoting": "weak"
+                }
+            ],
+            "problemMatcher": "$msCompile"
         }
     ]
 }
