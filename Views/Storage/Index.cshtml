@@ -1,0 +1,38 @@
+@model IEnumerable<StorageModel>
+@{
+    ViewData["Title"] = "Storage";
+}
+
+
+    <h1>Storage</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Filename
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Filename)
+            </td>
+            <td>
+            <a asp-action="DownloadFile" asp-route-filename="@item.Filename" asp-route-contentType="@item.ContentType">Download</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<form method="post" asp-action="UploadFile" enctype="multipart/form-data">
+    <input type="file" name="file" /> 
+    <button type="submit">Upload</button>
+</form>
+
+
+
+  

@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Google.Cloud.Diagnostics.AspNetCore;
 using Google.Cloud.Diagnostics.Common;
 using Microsoft.Extensions.Logging;
+using gcp_demo.Storage;
 
 namespace gcp
 {
@@ -43,6 +44,8 @@ namespace gcp
                 options.Options = TraceOptions.Create(
                     bufferOptions: BufferOptions.NoBuffer());
             });
+
+            services.AddTransient<IStorageWrapper, GoogleStorage>();
 
             services.AddControllersWithViews();
         }
