@@ -1,0 +1,61 @@
+@model IEnumerable<DatastoreModel>
+@{
+    ViewData["Title"] = "Datastore";
+}
+     
+<h1>Storage</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Message
+            </th>
+            <th>
+                Count
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Message)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Count)
+                </td>
+                <td>
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@using (Html.BeginForm("Add", "Datastore", FormMethod.Post))
+{
+    <table cellpadding="0" cellspacing="0">
+            <tr>
+                <th colspan="2">Person Details</th>
+            </tr>
+            <tr>
+                <td>Message: </td>
+                <td>
+                    @Html.TextBox("message", "Example", new { @class = "form-control"})
+                </td>
+            </tr>
+            <tr>
+                <td>Count: </td>
+                <td>
+                     @Html.TextBox("count", 1, new { @class = "form-control"})
+                </td>
+            </tr>
+        <tr>
+            <td></td>
+            <td>
+                <input type="submit" value="Submit"/>
+            </td>
+        </tr>
+    </table>
+}
