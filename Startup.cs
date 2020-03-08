@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using gcp_demo.Storage;
 using gcp_demo.Datastore;
 using gcp_demo.BigQuery;
+using Microsoft.AspNetCore.DataProtection;
 
 namespace gcp
 {
@@ -30,6 +31,14 @@ namespace gcp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddOptions();
+            
+            services.AddDataProtection()
+                .PersistKeysToGoogleCloudStorage(
+                    Configuration["DataProtection:Bucket"],
+                    Configuration["DataProtection:Object"])
+                .ProtectKeysWithGoogleKms(
+                    Configuration["DataProtection:KmsKeyName"]);
+
             services.Configure<StackdriverOptions>(
                 Configuration.GetSection("Stackdriver"));
             services.AddGoogleExceptionLogging(options =>
