@@ -13,6 +13,7 @@ using Google.Cloud.Diagnostics.Common;
 using Microsoft.Extensions.Logging;
 using gcp_demo.Storage;
 using gcp_demo.Datastore;
+using gcp_demo.BigQuery;
 
 namespace gcp
 {
@@ -48,6 +49,7 @@ namespace gcp
 
             services.AddTransient<IStorageWrapper, GoogleStorage>();
             services.AddTransient<IDatastoreWrapper>(g => new GoogleDatastore("calcium-blend-269009"));
+            services.AddTransient<IBigQueryWrapper>(g => new GoogleBigQuery("calcium-blend-269009"));
 
             services.AddControllersWithViews();
         }
