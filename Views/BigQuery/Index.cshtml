@@ -1,0 +1,28 @@
+@model BigQueryModel
+@{
+    ViewData["Title"] = "Big Query";
+}
+
+<h1>Requests</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Datastore Requests
+            </th>
+            <th>
+                Storage Requests
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.DatastoreRequests)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.StorageRequests)
+                </td>
+            </tr>
+    </tbody>
+</table>
