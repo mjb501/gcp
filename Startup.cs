@@ -12,6 +12,7 @@ using Google.Cloud.Diagnostics.AspNetCore;
 using Google.Cloud.Diagnostics.Common;
 using Microsoft.Extensions.Logging;
 using gcp_demo.Storage;
+using gcp_demo.Datastore;
 
 namespace gcp
 {
@@ -46,6 +47,7 @@ namespace gcp
             });
 
             services.AddTransient<IStorageWrapper, GoogleStorage>();
+            services.AddTransient<IDatastoreWrapper>(g => new GoogleDatastore("calcium-blend-269009"));
 
             services.AddControllersWithViews();
         }
